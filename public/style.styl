@@ -1,0 +1,25 @@
+.summit-view-twitch
+    .channel
+        float left
+        img
+            width 100px
+            border-radius 100%
+    .red
+        color rgb(233, 0, 39)
+    .yellow
+        color rgb(252, 198, 0)
+    .green
+        color rgb(141, 202, 41)
+    .pulse
+        animation summit-view-twitch-ring-pulse 1s ease
+        animation-iteration-count infinite
+
+@-webkit-keyframes summit-view-twitch-ring-pulse
+    0%
+        transform scale(1, 1)
+        opacity .0
+    50%
+        opacity .1
+    100%
+        transform scale(2, 2)
+        opacity .0

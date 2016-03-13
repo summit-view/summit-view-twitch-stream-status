@@ -18,5 +18,14 @@
   "bugs": {
     "url": "https://github.com/summit-view/summit-view-twitch-stream-status/issues"
   },
-  "homepage": "https://github.com/summit-view/summit-view-twitch-stream-status#readme"
+  "homepage": "https://github.com/summit-view/summit-view-twitch-stream-status#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-stylus": "^2.3.1"
+  },
+  "dependencies": {
+    "q": "^1.4.1",
+    "request": "^2.69.0"
+  }
 }
