@@ -40,7 +40,7 @@ var update = function() {
 
             var deferred = Q.defer();
 
-            request.get({url: streamsUrl, qs: {channel: channels.join(',')}, json:true}, function(err, res) {
+            request.get({url: streamsUrl, qs: {channel: channels.join(','), stream_type: 'all'}, json:true}, function(err, res) {
                 if(!err) {
                     deferred.resolve(res.body);
                 }
@@ -55,6 +55,7 @@ var update = function() {
             });
 
             summit.io.emit('profiles', profiles);
+            summit.io.emit('loaded');
         });
 };
 
@@ -67,15 +68,27 @@ var track = function(channel) {
         channels.push(chnls[i].trim());
     }
 
-    update();
+    if( !channels.length ) {
+        summit.io.emit('loading', 'No channels to track...');
+    }
+    else {
+        update();
+    }
 };
 
 module.exports = function(s) {
     summit = s;
 
     // emit the profiles on new connection
-    summit.io.on('connection', function() {
-        summit.io.emit('profiles', profiles);
+    summit.io.on('connection', function(socket) {
+        socket.emit('profiles', profiles);
+
+        if( channels.length ) {
+            socket.emit('loaded');
+        }
+        else {
+            socket.emit('loading', 'No channels to track...');
+        }
     });
 
     return summit.settings()
@@ -99,6 +112,16 @@ module.exports = function(s) {
 
             return {
                 id: id,
+                branding: {
+                    icon: {
+                        fa: 'twitch',
+                    },
+                    color: {
+                        background: 'twitch-tv',
+                        text: 'clouds',
+                        icon: 'clouds',
+                    }
+                },
             };
         });
 };
